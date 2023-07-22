@@ -18,6 +18,7 @@ html
 			justify-content: center;
 			align-items: center;
 			margin-bottom: 20px;
+			display: none; /* Add this line to hide the preview initially */
 		}
 		.image-preview img {
 			max-width: 100%;
@@ -63,11 +64,12 @@ html
 			if (file) {
 				const reader = new FileReader();
 				reader.onload = function(e) {
+					imagePreview.style.display = 'flex'; // Show the preview when a file is selected
 					imagePreview.innerHTML = `<img src="${e.target.result}" alt="Image Preview" />`;
 				}
 				reader.readAsDataURL(file);
 			} else {
-				imagePreview.innerHTML = `Image Preview`;
+				imagePreview.style.display = 'none'; // Hide the preview when no file is selected
 			}
 		}
         // Call the previewImage function when the file input changes
@@ -98,7 +100,7 @@ html
 <body>
 	<div class="container">
 		<div class="image-preview" id="imagePreview">
-			Image Preview
+			<!-- Remove the initial "Image Preview" text -->
 		</div>
 		<input type="file" id="uploadImage" accept="image/*" />
 		<button onclick="predictAnimal()">Predict</button>
