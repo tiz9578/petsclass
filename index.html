@@ -24,17 +24,18 @@
 			max-height: 100%;
 		}
 		.result {
-			font-size: 18px;
-			font-weight: bold;
-			text-align: left;
 			margin-top: 20px;
 		}
 		.result-label {
-			font-weight: normal;
+			font-size: 18px;
+			font-weight: bold;
 		}
 		.result-confidence {
-			font-weight: bold;
-			margin-left: 10px;
+			margin-top: 5px;
+		}
+		.result-confidence span {
+			display: inline-block;
+			margin-right: 10px;
 		}
 	</style>
 	<script type="module">
@@ -76,19 +77,19 @@
          function displayPredictionResult(data) {
 			const resultContainer = document.getElementById('predictionResult');
 			resultContainer.innerHTML = '';
- 			data.forEach((prediction) => {
+ 			data.forEach((prediction, index) => {
 				const label = prediction.label;
 				const confidences = prediction.confidences;
  				const resultElement = document.createElement('div');
 				resultElement.classList.add('result');
- 				const labelElement = document.createElement('span');
+ 				const labelElement = document.createElement('div');
 				labelElement.classList.add('result-label');
-				labelElement.innerText = label;
+				labelElement.innerText = `${index + 1}. ${label}`;
 				resultElement.appendChild(labelElement);
  				confidences.forEach((confidence) => {
 					const confidenceElement = document.createElement('span');
 					confidenceElement.classList.add('result-confidence');
-					confidenceElement.innerText = `${confidence.label}: ${confidence.confidence.toFixed(2)}`;
+					confidenceElement.innerHTML = `<span>${confidence.label}:</span> ${confidence.confidence.toFixed(2)}`;
 					resultElement.appendChild(confidenceElement);
 				});
  				resultContainer.appendChild(resultElement);
