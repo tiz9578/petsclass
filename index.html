@@ -1,3 +1,4 @@
+html
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,7 +30,7 @@
 	</style>
 	<script type="module">
         import { client } from "https://cdn.jsdelivr.net/npm/@gradio/client@latest?module";
-		async function predictAnimal() {
+         async function predictAnimal() {
 			const uploadImage = document.getElementById('uploadImage');
 			const imagePreview = document.getElementById('imagePreview');
 			const predictionResult = document.getElementById('predictionResult');
@@ -44,6 +45,8 @@
 				predictionResult.innerText = result.data;
 			}
 		}
+         // Define the predictAnimal function in the global scope
+        window.predictAnimal = predictAnimal;
 	</script>
 </head>
 <body>
