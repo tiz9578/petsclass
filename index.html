@@ -27,8 +27,8 @@
 			font-weight: bold;
 		}
 	</style>
-	<script src="https://cdn.jsdelivr.net/npm/@gradio/client@1.5.0/dist/gradio.client.min.js"></script>
-	<script>
+	<script type="module">
+        import { client } from "https://cdn.jsdelivr.net/npm/@gradio/client@latest?module";
 		async function predictAnimal() {
 			const uploadImage = document.getElementById('uploadImage');
 			const imagePreview = document.getElementById('imagePreview');
@@ -37,7 +37,7 @@
 			if (file) {
 				const response = await fetch(URL.createObjectURL(file));
 				const imageBlob = await response.blob();
-				const app = await gradio.client("https://tiz9578-petsclass.hf.space/");
+				const app = await client("https://tiz9578-petsclass.hf.space/");
 				const result = await app.predict("/predict", [
 					imageBlob, // blob in 'img' Image component
 				]);
