@@ -1,4 +1,3 @@
-html
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,17 +41,33 @@ html
 				const result = await app.predict("/predict", [
 					imageBlob, // blob in 'img' Image component
 				]);
-				predictionResult.innerText = result.data;
+				predictionResult.innerText = JSON.stringify(result.data, null, 2);
 			}
 		}
          // Define the predictAnimal function in the global scope
         window.predictAnimal = predictAnimal;
+         function previewImage() {
+			const uploadImage = document.getElementById('uploadImage');
+			const imagePreview = document.getElementById('imagePreview');
+			const file = uploadImage.files[0];
+			if (file) {
+				const reader = new FileReader();
+				reader.onload = function(e) {
+					imagePreview.innerHTML = `<img src="${e.target.result}" alt="Image Preview" />`;
+				}
+				reader.readAsDataURL(file);
+			} else {
+				imagePreview.innerHTML = `Image Preview`;
+			}
+		}
+        // Call the previewImage function when the file input changes
+        document.getElementById('uploadImage').addEventListener('change', previewImage);
 	</script>
 </head>
 <body>
 	<div class="container">
 		<div class="image-preview" id="imagePreview">
-			<img src="#" alt="Image Preview" />
+			Image Preview
 		</div>
 		<input type="file" id="uploadImage" accept="image/*" />
 		<button onclick="predictAnimal()">Predict</button>
