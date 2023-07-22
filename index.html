@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Animal Prediction</title>
+	<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.9.0/dist/tf.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@2.0.4/dist/mobilenet.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/knn-classifier@1.0.1/dist/knn-classifier.min.js"></script>
+	<style>
+		.container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-top: 50px;
+		}
+ 		.image-preview {
+			width: 300px;
+			height: 300px;
+			border: 2px solid #ccc;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin-bottom: 20px;
+		}
+ 		.image-preview img {
+			max-width: 100%;
+			max-height: 100%;
+		}
+ 		.result {
+			font-size: 18px;
+			font-weight: bold;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="image-preview" id="imagePreview">
+			<img src="#" alt="Image Preview" />
+		</div>
+		<input type="file" id="uploadImage" accept="image/*" />
+		<button onclick="predictAnimal()">Predict</button>
+		<div class="result" id="predictionResult"></div>
+	</div>
+ 	<script>
+		const uploadImage = document.getElementById('uploadImage');
+		const imagePreview = document.getElementById('imagePreview');
+		const predictionResult = document.getElementById('predictionResult');
+ 		uploadImage.addEventListener('change', function() {
+			const file = this.files[0];
+			if (file) {
+				const reader = new FileReader();
+				reader.onload = function(e) {
+					imagePreview.querySelector('img').setAttribute('src', e.target.result);
+				}
+				reader.readAsDataURL(file);
+			}
+		});
+ 		async function predictAnimal() {
+			const file = uploadImage.files[0];
+			if (file) {
+				const formData = new FormData();
+				formData.append('img', file);
+ 				const response = await fetch('/predict', {
+					method: 'POST',
+					body: formData
+				});
+ 				const result = await response.json();
+				predictionResult.innerText = result;
+			}
+		}
+	</script>
+</body>
+</html>
