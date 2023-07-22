@@ -17,7 +17,7 @@
 			justify-content: center;
 			align-items: center;
 			margin-bottom: 20px;
-			display: none;
+			display: none; /* Add this line to hide the preview initially */
 		}
 		.image-preview img {
 			max-width: 100%;
@@ -36,22 +36,10 @@
 			font-weight: bold;
 			margin-left: 10px;
 		}
-		.table-container {
-			margin-top: 20px;
-		}
-		table {
-			border-collapse: collapse;
-			width: 300px;
-		}
-		th, td {
-			border: 1px solid #ccc;
-			padding: 8px;
-			text-align: left;
-		}
 	</style>
 	<script type="module">
-		import { client } from "https://cdn.jsdelivr.net/npm/@gradio/client@latest?module";
-		async function predictAnimal() {
+        import { client } from "https://cdn.jsdelivr.net/npm/@gradio/client@latest?module";
+         async function predictAnimal() {
 			const uploadImage = document.getElementById('uploadImage');
 			const imagePreview = document.getElementById('imagePreview');
 			const predictionResult = document.getElementById('predictionResult');
@@ -66,9 +54,9 @@
 				displayPredictionResult(result.data);
 			}
 		}
- 		// Define the predictAnimal function in the global scope
-		window.predictAnimal = predictAnimal;
- 		function previewImage() {
+         // Define the predictAnimal function in the global scope
+        window.predictAnimal = predictAnimal;
+         function previewImage() {
 			const uploadImage = document.getElementById('uploadImage');
 			const imagePreview = document.getElementById('imagePreview');
 			const file = uploadImage.files[0];
@@ -83,43 +71,28 @@
 				imagePreview.style.display = 'none'; // Hide the preview when no file is selected
 			}
 		}
- 		// Call the previewImage function when the file input changes
-		document.getElementById('uploadImage').addEventListener('change', previewImage);
- 		function displayPredictionResult(data) {
+        // Call the previewImage function when the file input changes
+        document.getElementById('uploadImage').addEventListener('change', previewImage);
+         function displayPredictionResult(data) {
 			const resultContainer = document.getElementById('predictionResult');
 			resultContainer.innerHTML = '';
- 			const firstPrediction = data[0];
-			const firstPredictionLabel = firstPrediction.label;
- 			const firstResultElement = document.createElement('div');
-			firstResultElement.classList.add('result');
-			firstResultElement.innerText = `This is a ${firstPredictionLabel}`;
-			resultContainer.appendChild(firstResultElement);
- 			const tableContainer = document.createElement('div');
-			tableContainer.classList.add('table-container');
-			const table = document.createElement('table');
-			const tableHeaderRow = document.createElement('tr');
-			const nameLabel = document.createElement('th');
-			nameLabel.innerText = 'Name';
-			const valueLabel = document.createElement('th');
-			valueLabel.innerText = 'Value';
-			tableHeaderRow.appendChild(nameLabel);
-			tableHeaderRow.appendChild(valueLabel);
-			table.appendChild(tableHeaderRow);
- 			for (let i = 1; i < data.length; i++) {
-				const prediction = data[i];
-				const predictionLabel = prediction.label;
-				const predictionConfidence = prediction.confidences[0].confidence.toFixed(2);
- 				const tableRow = document.createElement('tr');
-				const nameLabel = document.createElement('td');
-				nameLabel.innerText = predictionLabel;
-				const valueLabel = document.createElement('td');
-				valueLabel.innerText = predictionConfidence;
-				tableRow.appendChild(nameLabel);
-				tableRow.appendChild(valueLabel);
-				table.appendChild(tableRow);
-			}
- 			tableContainer.appendChild(table);
-			resultContainer.appendChild(tableContainer);
+ 			data.forEach((prediction) => {
+				const label = prediction.label;
+				const confidences = prediction.confidences;
+ 				const resultElement = document.createElement('div');
+				resultElement.classList.add('result');
+ 				const labelElement = document.createElement('span');
+				labelElement.classList.add('result-label');
+				labelElement.innerText = label;
+				resultElement.appendChild(labelElement);
+ 				confidences.forEach((confidence) => {
+					const confidenceElement = document.createElement('span');
+					confidenceElement.classList.add('result-confidence');
+					confidenceElement.innerText = `${confidence.label}: ${confidence.confidence.toFixed(2)}`;
+					resultElement.appendChild(confidenceElement);
+				});
+ 				resultContainer.appendChild(resultElement);
+			});
 		}
 	</script>
 </head>
