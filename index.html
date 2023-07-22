@@ -27,6 +27,7 @@
 			font-weight: bold;
 		}
 	</style>
+	<script src="https://cdn.jsdelivr.net/npm/@gradio/client@1.5.0/dist/gradio.client.min.js"></script>
 	<script>
 		async function predictAnimal() {
 			const uploadImage = document.getElementById('uploadImage');
@@ -54,6 +55,5 @@
 		<button onclick="predictAnimal()">Predict</button>
 		<div class="result" id="predictionResult"></div>
 	</div>
-	<script src="https://cdn.jsdelivr.net/npm/@gradio/client@1.5.0/dist/gradio.client.min.js"></script>
 </body>
 </html>
