@@ -27,32 +27,11 @@
 			font-weight: bold;
 		}
 	</style>
-</head>
-<body>
-	<div class="container">
-		<div class="image-preview" id="imagePreview">
-			<img src="#" alt="Image Preview" />
-		</div>
-		<input type="file" id="uploadImage" accept="image/*" />
-		<button onclick="predictAnimal()">Predict</button>
-		<div class="result" id="predictionResult"></div>
-	</div>
-	<script src="https://cdn.jsdelivr.net/npm/@gradio/client@1.5.0/dist/gradio.client.min.js"></script>
 	<script>
-		const uploadImage = document.getElementById('uploadImage');
-		const imagePreview = document.getElementById('imagePreview');
-		const predictionResult = document.getElementById('predictionResult');
- 		uploadImage.addEventListener('change', function() {
-			const file = this.files[0];
-			if (file) {
-				const reader = new FileReader();
-				reader.onload = function(e) {
-					imagePreview.querySelector('img').setAttribute('src', e.target.result);
-				}
-				reader.readAsDataURL(file);
-			}
-		});
- 		async function predictAnimal() {
+		async function predictAnimal() {
+			const uploadImage = document.getElementById('uploadImage');
+			const imagePreview = document.getElementById('imagePreview');
+			const predictionResult = document.getElementById('predictionResult');
 			const file = uploadImage.files[0];
 			if (file) {
 				const response = await fetch(URL.createObjectURL(file));
@@ -65,5 +44,16 @@
 			}
 		}
 	</script>
+</head>
+<body>
+	<div class="container">
+		<div class="image-preview" id="imagePreview">
+			<img src="#" alt="Image Preview" />
+		</div>
+		<input type="file" id="uploadImage" accept="image/*" />
+		<button onclick="predictAnimal()">Predict</button>
+		<div class="result" id="predictionResult"></div>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/@gradio/client@1.5.0/dist/gradio.client.min.js"></script>
 </body>
 </html>
