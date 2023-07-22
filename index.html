@@ -87,7 +87,7 @@
 				labelElement.innerText = `${index + 1}. ${label}`;
 				resultElement.appendChild(labelElement);
  				confidences.forEach((confidence) => {
-					const confidenceElement = document.createElement('span');
+					const confidenceElement = document.createElement('div');
 					confidenceElement.classList.add('result-confidence');
 					confidenceElement.innerHTML = `<span>${confidence.label}:</span> ${confidence.confidence.toFixed(2)}`;
 					resultElement.appendChild(confidenceElement);
